@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title></title>
+</head>
+<body>
+<script type="text/javascript">
+	// Create the canvas
+var canvas = document.createElement("canvas");
+var ctx = canvas.getContext("2d");
+canvas.width = 1024;
+canvas.height = 558;
+document.body.appendChild(canvas);
+
+// 背景图片
+var bgReady = false;
+var bgImage = new Image();
+bgImage.onload = function () {
+	bgReady = true;
+};
+bgImage.src = "images/index.png";
+
+//boat
+var bigBoatReady = false;
+var bigBoatImage = new Image();
+bigBoatImage.onload = function () {
+	bigBoatReady = true;
+};
+bigBoatImage.src = "images/big_boat.png";
+
+// small_boat image
+var smallBoatReady = false;
+var smallBoatImage = new Image();
+smallBoatImage.onload = function () {
+	smallBoatReady = true;
+};
+smallBoatImage.src = "images/small_boat.png";
+
+// 游戏对象
+var bigBoat = {
+    speed: 256, // 每秒移动的像素
+    x: 0,
+    y: 0
+};
+var smallBoat = {
+    x: 130,
+    y: 110
+};
+var boatNumber = 0;
+
+// Draw everything
+var render = function () {
+	if (bgReady) {
+		ctx.drawImage(bgImage, 0, 0);
+	}
+	if (bigBoatReady) {
+		ctx.drawImage(bigBoatImage, bigBoat.x, bigBoat.y);
+	}
+
+	if (smallBoatReady) {
+		ctx.drawImage(smallBoatImage, smallBoat.x, smallBoat.y);
+	}
+
+	// Score
+	ctx.fillStyle = "rgb(250, 250, 250)";
+	ctx.font = "24px Helvetica";
+	ctx.textAlign = "left";
+	ctx.textBaseline = "top";
+	ctx.fillText("捕鱼小游戏: " + boatNumber, 32, 32);
+};
+
+// The main game loop
+var main = function () {
+	render();
+	// Request to do this again ASAP
+	requestAnimationFrame(main);
+};
+
+// Cross-browser support for requestAnimationFrame
+var w = window;
+requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame || w.msRequestAnimationFrame || w.mozRequestAnimationFrame;
+
+// Let's play this game!
+main();
+</script>
+</body>
+</html>
